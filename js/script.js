@@ -42,15 +42,27 @@ function buildGrid(squaresPerSide = 16) {
             newDiv.classList.add(`div${column}`);
             newDiv.style.boxSizing = 'border-box';
             newDiv.style.width = `${960 / squaresPerSide}px`;
-            newDiv.addEventListener('mouseover', () => {
-                newDiv.style.backgroundColor = 'red';
-            });
+            newDiv.dataset.passes = 1;
+            newDiv.addEventListener('mouseover', 
+                () => {
+                if(newDiv.dataset.passes < 10) {
+                    newDiv.style.backgroundColor = randomColor(newDiv.dataset.passes);
+                    newDiv.dataset.passes++;
+                }
+                });
             newRow.appendChild(newDiv);
         }
         
         grid.appendChild(newRow);
     }
     return grid;
+}
+
+function randomColor(passes) {
+    const red = Math.floor((Math.random() * 256) / passes);
+    const green = Math.floor((Math.random() * 256) / passes);
+    const blue = Math.floor((Math.random() * 256) / passes);
+    return `rgb(${red}, ${green}, ${blue})`;
 }
 
 const newGrid = buildGrid();
